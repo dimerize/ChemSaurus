@@ -15,6 +15,12 @@ function getWord() {
   }
   Logger.log("Word: %s",arr[arrPoint -1]);
   
+  sendToApi(arr[arrPoint -1]);
+  
+}
+
+function sendToApi(inString){
   
   
+  return out; //this should be a string of the information that the api returns
 }
