@@ -148,6 +148,9 @@ function subscript(word) {
     var next = " ";
     //prevspace true/false 1/0
     var prevspace;
+    if (i === 0) {
+      prevspace = 1;
+    }
     if (i > 0) {
       prev = word.charAt(i-1);
     }
