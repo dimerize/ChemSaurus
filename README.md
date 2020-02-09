@@ -1,6 +1,6 @@
 # ChemSaurus
 
-A Google Docs add-on for chemical formatting, smart molecular substitution, and more, ChemSaurus is designed to make publishing painless. 
+A Google Docs add-on for fast chemical formatting, smart molecular substitution, and more, ChemSaurus is designed to make publishing painless. 
 
 <img src="./fossilpigment.jpg" width=500/> 
 
