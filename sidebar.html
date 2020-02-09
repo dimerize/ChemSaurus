@@ -40,6 +40,9 @@
           <button class="blue" id="run-translation">ChemSaur It!</button>
           <button id="insert-text">Make Formula</button>
         </div>
+        <div class="block" id="button-bar">
+          <button class="blue" id="get-Facts">Get Facts!</button>
+        </div>
         <div class="block form-group">
           <label for="translated-text"><b>ChemFacts</b></label>
           <textarea class="width-100" id="translated-text" rows="10"></textarea>
@@ -56,6 +59,7 @@
       $(function() {
         $('#run-translation').click(runTranslation);
         $('#insert-text').click(insertText);
+        $('#get-Facts').click(runTranslation2);
         google.script.run.withSuccessHandler(loadPreferences)
             .withFailureHandler(showError).getPreferences();
       });
@@ -82,7 +86,28 @@
                 element.disabled = false;
               })
             .withUserObject(this)
-            .getTextAndTranslation();
+            .getTextAndTranslation(origin, dest, savePrefs);
+      }
+      
+       function runTranslation2() {
+        this.disabled = true;
+        $('#error').remove();
+        var origin = $('input[name=origin]:checked').val();
+        var dest = $('input[name=dest]:checked').val();
+        var savePrefs = $('#save-prefs').is(':checked');
+        google.script.run
+            .withSuccessHandler(
+              function(textAndTranslation, element) {
+               $('#translated-text').val(textAndTranslation.text);
+                element.disabled = false;
+              })
+            .withFailureHandler(
+              function(msg, element) {
+                showError(msg, $('#button-bar'));
+                element.disabled = false;
+              })
+            .withUserObject(this)
+            .getTextAndTranslation2(origin, dest, savePrefs);
       }
 
       /**
