@@ -160,7 +160,7 @@ function subscript(word) {
  * @return {Object} Object containing the original text and the result of the
  *     translation.
  */
-function getTextAndTranslation(origin, dest, savePrefs) {
+function getTextAndTranslation() {
   var text = sendToApi(getWord(), 3);
   return {
     text: text
