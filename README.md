@@ -13,6 +13,9 @@ When writing chemistry in Google Docs, the process of making formulas, reaction 
 ### Description
 ChemSaurus allows you to dynamically convert text in Google Docs files into automatically-generated formats in accordance with reaction structure convention and current International Union of Pure and Applied Chemistry (IUPAC) naming standards. In addition to standard stylization edits (subscripting numbers indicating repeat atoms, superscripting those that indicate ionic charge, etc.), ChemSaurus also provides potential alternative representations of the input chemical, as well as replacement suggestions based on molecules with similar representations and/or attributes.
 
+<img src="./demo-aspirin.png" width=500/> 
+<img src="./demo-equations.png" width=500/> 
+
 ## Implementation
 We set up ChemSaurus as a [Google Docs Add-On](https://developers.google.com/gsuite/add-ons/overview), writing the logic in Google's own all-purpose Docs language [Apps Script](https://developers.google.com/apps-script). The add-on selects a word to analyze based on the position of the user's cursor, and automatically provides a properly-scripted form of the chemical formula through an internal method. The smart replacements are then obtained through a [PubChem API](https://pubchemdocs.ncbi.nlm.nih.gov/autocomplete) and shown in a menu on the Docs sidebar, which itself was created in HTML. The Docs file is then modified based on whichever alteration the user selects, if any. 
 
