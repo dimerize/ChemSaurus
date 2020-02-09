@@ -55,8 +55,36 @@ function showSidebar() {
  *
  * @return {Array.<string>} The selected text.
  */
+
 function getSelectedText() {
-  return  sendToApi(getWord(), 3);
+  var selection = DocumentApp.getActiveDocument().getSelection();
+  var text = [];
+  if (selection) {
+    var elements = selection.getSelectedElements();
+    for (var i = 0; i < elements.length; ++i) {
+      if (elements[i].isPartial()) {
+        var element = elements[i].getElement().asText();
+        var startIndex = elements[i].getStartOffset();
+        var endIndex = elements[i].getEndOffsetInclusive();
+
+        text.push(element.getText().substring(startIndex, endIndex + 1));
+      } else {
+        var element = elements[i].getElement();
+        // Only translate elements that can be edited as text; skip images and
+        // other non-text elements.
+        if (element.editAsText) {
+          var elementText = element.asText().getText();
+          // This check is necessary to exclude images, which return a blank
+          // text element.
+          if (elementText) {
+            text.push(elementText);
+          }
+        }
+      }
+    }
+  }
+  if (!text.length) throw new Error('Please select some text.');
+  return text.toString();
 }
 
 function getWord() {
@@ -101,7 +129,7 @@ function sendToApi(textIn, len){
 
 function subscript(word) {
   var res = "";
-  for (var i = 0; i < str.length; i++) {
+  for (var i = 0; i < word.length; i++) {
     var char = word.charAt(i);
     if (char >= '0' && char <= '9') {
       var offset = '9' - char;
@@ -133,13 +161,14 @@ function subscript(word) {
  *     translation.
  */
 function getTextAndTranslation(origin, dest, savePrefs) {
-  var text = getSelectedText()
+  var text = sendToApi(getWord(), 3);
   return {
     text: text
   };
 }
 
-function insertText(newText) {
+function insertText() {
+  newText = subscript(getSelectedText());
   var selection = DocumentApp.getActiveDocument().getSelection();
   if (selection) {
     var replaced = false;
@@ -212,9 +241,6 @@ function insertText(newText) {
     cursor.insertText(newText);
   }
 }
-
-
-
 
 
 
