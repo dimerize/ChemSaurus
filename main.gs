@@ -37,6 +37,7 @@ function sendToApi(textIn, len) {
 
 //takes string and returns it with all numbers subscripted
 function subscript(word) {
+  Logger.log("non-subscripted: %s", word);
   var res = "";
   for (var i = 0; i < str.length; i++) {
     var char = word.charAt(i);
@@ -51,5 +52,6 @@ function subscript(word) {
       res += char;
     }
   }
+  Logger.log("subscripted: %s", res);
   return res;
 }
