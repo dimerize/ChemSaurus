@@ -84,14 +84,13 @@ function getWord() {
 
 function sendToApi(textIn, len){
   
-  var n = 4;
-  var senStr = "https://pubchem.ncbi.nlm.nih.gov/rest/autocomplete/compound/" + textIn + "/json?limit=4" + len;
+  var senStr = "https://pubchem.ncbi.nlm.nih.gov/rest/autocomplete/compound/" + textIn + "/json?limit=" + len;
   var out = UrlFetchApp.fetch(senStr);
   var text = out.getContentText();
   var data = JSON.parse(text);
-  var names = new Array(n);
+  var names = new Array(len);
   if (data.status.code === 0) {
-    for(var i = 0; i<n; i++){
+    for(var i = 0; i<len; i++){
       names[i] = data.dictionary_terms.compound[i];
     }
   }
