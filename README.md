@@ -1,18 +1,18 @@
 # ChemSaurus
 
-Run handwritten code, straight from your phone. 
+A Google Docs add-on for chemical formatting, smart molecular substitution, and more, ChemSaurus is designed to make publishing painless. 
 
 Created at [DevFest 2020](https://devfe.st/) at Columbia University by Josh Fuller, Omar Khan, and Emily Wang.
 
 ## Project Overview
 ### Motivation
-Whiteboarding, coding by hand, and reading code in the form of physical text (via textbook or otherwise) are common among programmers and CS students—but it is rather inconvenient when one wishes to compile and test such code. Thus, an easy method of converting such "physical" code into machine-parsable and runnable "real" code would be very helpful.
+When writing chemistry in Google Docs, the process of making formulas, structures, and names look presentable is tedious and requires using the internet to get chemical properties and behaviors and check for proper nomenclature conventions. As such, we wanted to streamline this process by clustering relevant solutions for the aforementioned issues into one robust product.
 
 ### Description
-PicCode enables you to text a picture of handwritten C code to a special phone number, and receive the stdout output texted right back to you after the code is compiled and executed. Furthermore, the service will text meaningful debug messages if your code is can't compile or causes a runtime error. Whiteboarding often results in buggy code that is hard to verify without compiling, which is why being able to do it all on your phone is a huge plus. With our technology, you can quickly verify any handwritten code just by taking a picture!
+ChemSaurus allows you to dynamically convert text in Google Docs files into automatically-generated formats in accordance with current International Union of Pure and Applied Chemistry (IUPAC) naming standards. In addition to standard stylization edits (subscripting numbers indicating repeat atoms, superscripting those that indicate ionic charge, etc.), ChemSaurus also provides potential alternative representations of the input chemical, as well as replacement suggestions based on molecules with similar representations and/or attributes.
 
-## How We Did It
-We set the entire service up on a Google Cloud [Compute Engine](https://cloud.google.com/compute/) (a virtual machine, or VM), so it's always running in the cloud. Using [Flask](http://flask.pocoo.org/) and [Twilio](https://www.twilio.com/) in Python, our remote server (the VM) was able to receive an image of handwritten code and to respond accordingly to the user. The Google Vision Cloud API (specifically its [Optical Character Recognition](https://cloud.google.com/vision/docs/ocr)) was used to help with the handwriting-to-code conversion. Within the Google Cloud VM, we wrote a shell script, called every time the server received a text message, that would essentially compile the program and write the output and/or errors to a file. Upon the scripts completion, the server then sent the output or error messages back via text.
+## Implementation
+We set up ChemSaurus as a Google Docs [Add-On](https://developers.google.com/gsuite/add-ons/overview), writing the logic in Google's own all-purpose Docs language [Apps Script](https://developers.google.com/apps-script). Using [Flask](http://flask.pocoo.org/) and [Twilio](https://www.twilio.com/) in Python, our remote server (the VM) was able to receive an image of handwritten code and to respond accordingly to the user. The Google Vision Cloud API (specifically its [Optical Character Recognition](https://cloud.google.com/vision/docs/ocr)) was used to help with the handwriting-to-code conversion. Within the Google Cloud VM, we wrote a shell script, called every time the server received a text message, that would essentially compile the program and write the output and/or errors to a file. Upon the scripts completion, the server then sent the output or error messages back via text.
 
 We've tested our platform across multiple mediums—including printer paper, lined paper, blackboards, and whiteboards—with promising results.
 
