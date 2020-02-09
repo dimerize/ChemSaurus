@@ -15,12 +15,29 @@ function getWord() {
   }
   Logger.log("Word: %s",arr[arrPoint -1]);
   
-  sendToApi(arr[arrPoint -1]);
+  sendToApi(arr[arrPoint -1], 3   );
   
 }
 
-function sendToApi(inString){
+function sendToApi(textIn, len){
   
   
-  return out; //this should be a string of the information that the api returns
+  var senStr = "https://pubchem.ncbi.nlm.nih.gov/rest/autocomplete/compound/" + textIn + "/jsonp?limit=" + len;
+  var getWeb = UrlFetchApp.fetch(senStr);
+  var outAll = getWeb.getContentText();
+  
+  var arr = [{}];
+  arr = outAll.split("[\n");
+  arr = arr[1].split("]");
+  arr = arr[0].split(",\n")
+  for(var i = 0; i<arr.length; i++){
+    arr[i] = arr[i].replace(/\s/g, "");
+    arr[i] = arr[i].replace(/\n/g, "");
+    arr[i] = arr[i].replace(/\t/g, "");
+    arr[i] = arr[i].replace(/\"/g, "");
+  }
+  Logger.log("Content: %s", arr);
+  
+  return arr
+  
 }
