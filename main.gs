@@ -141,19 +141,31 @@ function sendToApi2(textIn, len){
 
 function subscript(word) {
   var res = "";
-  //mode 0 sub, mode 1 super
-  var mode = 0;
   for (var i = 0; i < word.length; i++) {
+    //create char vars
     var char = word.charAt(i);
-    if (char >= '0' && char <= '9') {
-      if (mode === 0) {
-        var offset = '9' - char;
-        //8329 is unicode for subscript 9, and they're all in a line
-        var uni = 8329 - offset;
-        var sub = String.fromCharCode(uni);
-        res += sub;
-      }
-      else {
+    var prev = " ";
+    var next = " ";
+    //prevspace true/false 1/0
+    var prevspace;
+    if (i > 0) {
+      prev = word.charAt(i-1);
+    }
+    if (i < word.length) {
+      next = word.charAt(i+1)
+    }
+    //if letter concat
+    if ((char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z')) {
+      res += char;
+      prevspace = 0;
+    }
+    // if number
+    else if (char >= '0' && char <= '9') {
+      // if charge, remove prev space, add super
+      if (next === "+" || next === "-") {
+        //remove prev space
+        res = res.substring(0, res.length - 1);
+        //add super
         var uni;
         if (char === "0") {
           uni = 8304;
@@ -172,38 +184,45 @@ function subscript(word) {
           uni = 8313 - offset;
         }
         res += String.fromCharCode(uni);
+        prevspace = 0;
       }
-    }
-    else if (char === "+") {
-      if (mode === 1) {
-        res += String.fromCharCode(8314);
-      }
-      else {
+      //if prev was space, normal
+      else if (prevspace === 1) {
         res += char;
       }
-    }
-    else if (char === "-") {
-      if (mode === 1) {
-        res += String.fromCharCode(8315);
-      }
+      // else subscript
       else {
+        var offset = '9' - char;
+        var uni = 8329 - offset;
+        res += String.fromCharCode(uni);
+      }
+      //negate prevspace
+      prevspace = 0;
+    }
+    //if sign
+    else if (char === "+" || char === "-") {
+      if (prevspace === 1) {
         res += char;
       }
+      else {
+        if (char === "+") {
+          res += String.fromCharCode(8314);
+        }
+        else {
+          res += String.fromCharCode(8315);
+        }
+      }
+      prevspace = 0;
     }
     else if (char === " ") {
-      var nextChar = word.charAt(i+1);
-      if (nextChar >= '0' && nextChar <= '9') {
-        mode = 1;
-      }
-      else {
-        mode = 0;
-      }
+      res += char;
+      prevspace = 1;
     }
-    else if (mode === 0){
+    else {
       res += char;
     }
   }
-  Logger.log("Sub: %s", res)
+  Logger.log("Sub: %s", res);
   return res;
 }
 
