@@ -4,6 +4,8 @@ A Google Docs add-on for chemical formatting, smart molecular substitution, and 
 
 Created at [DevFest 2020](https://devfe.st/) at Columbia University by Josh Fuller, Omar Khan, and Emily Wang.
 
+<img src="./img/test2.jpg" height=700/> 
+
 ## Project Overview
 ### Motivation
 When writing chemistry in Google Docs, the process of making formulas, structures, and names look presentable is tedious and requires using the internet to get chemical properties and behaviors and check for proper nomenclature conventions. As such, we wanted to streamline this process by clustering relevant solutions for the aforementioned issues into one robust product.
