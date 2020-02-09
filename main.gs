@@ -45,7 +45,7 @@ function onInstall(e) {
  */
 function showSidebar() {
   var ui = HtmlService.createHtmlOutputFromFile('sidebar')
-      .setTitle('ChemSaur');
+      .setTitle('ChemSaurus');
   DocumentApp.getUi().showSidebar(ui);
 }
 
@@ -83,7 +83,7 @@ function getSelectedText() {
       }
     }
   }
-  if (!text.length) throw new Error('Please select some text.');
+  if (!text.length) throw new Error('Please place cursor on some text.');
   return text.toString();
 }
 
@@ -129,16 +129,65 @@ function sendToApi(textIn, len){
 
 function subscript(word) {
   var res = "";
+  //mode 0 sub, mode 1 super
+  var mode = 0;
   for (var i = 0; i < word.length; i++) {
     var char = word.charAt(i);
     if (char >= '0' && char <= '9') {
-      var offset = '9' - char;
-      //8329 is unicode for subscript 9, and they're all in a line
-      var uni = 8329 - offset;
-      var sub = String.fromCharCode(uni);
-      res += sub;
+      if (mode === 0) {
+        var offset = '9' - char;
+        //8329 is unicode for subscript 9, and they're all in a line
+        var uni = 8329 - offset;
+        var sub = String.fromCharCode(uni);
+        res += sub;
+      }
+      else {
+        var uni;
+        if (char === "0") {
+          uni = 8304;
+        }
+        else if (char === "1") {
+          uni = 185;
+        }
+        else if (char === "2") {
+          uni = 178;
+        }
+        else if (char === "3") {
+          uni = 179;
+        }
+        else if (char >= '4' && char <= '9') {
+          var offset = '9' - char;
+          uni = 8313 - offset;
+        }
+        res += String.fromCharCode(uni);
+      }
     }
-    else {
+    else if (char === "+") {
+      if (mode === 1) {
+        res += String.fromCharCode(8314);
+      }
+      else {
+        res += char;
+      }
+    }
+    else if (char === "-") {
+      if (mode === 1) {
+        res += String.fromCharCode(8315);
+      }
+      else {
+        res += char;
+      }
+    }
+    else if (char === " ") {
+      var nextChar = word.charAt(i+1);
+      if (nextChar >= '0' && nextChar <= '9') {
+        mode = 1;
+      }
+      else {
+        mode = 0;
+      }
+    }
+    else if (mode === 0){
       res += char;
     }
   }
