@@ -39,7 +39,7 @@ function sendToApi(textIn, len) {
 function subscript(word) {
   Logger.log("non-subscripted: %s", word);
   var res = "";
-  for (var i = 0; i < str.length; i++) {
+  for (var i = 0; i < word.length; i++) {
     var char = word.charAt(i);
     if (char >= '0' && char <= '9') {
       var offset = '9' - char;
