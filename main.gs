@@ -21,23 +21,17 @@ function getWord() {
 
 function sendToApi(textIn, len){
   
-  
-  var senStr = "https://pubchem.ncbi.nlm.nih.gov/rest/autocomplete/compound/" + textIn + "/jsonp?limit=" + len;
-  var getWeb = UrlFetchApp.fetch(senStr);
-  var outAll = getWeb.getContentText();
-  
-  var arr = [{}];
-  arr = outAll.split("[\n");
-  arr = arr[1].split("]");
-  arr = arr[0].split(",\n")
-  for(var i = 0; i<arr.length; i++){
-    arr[i] = arr[i].replace(/\s/g, "");
-    arr[i] = arr[i].replace(/\n/g, "");
-    arr[i] = arr[i].replace(/\t/g, "");
-    arr[i] = arr[i].replace(/\"/g, "");
+  var n = 4;
+  var senStr = "https://pubchem.ncbi.nlm.nih.gov/rest/autocomplete/compound/" + textIn + "/json?limit=4" + len;
+  var out = UrlFetchApp.fetch(senStr);
+  var text = out.getContentText();
+  var data = JSON.parse(text);
+  var names = new Array(n);
+  if (data.status.code === 0) {
+    for(var i = 0; i<n; i++){
+      names[i] = data.dictionary_terms.compound[i];
+    }
   }
-  Logger.log("Content: %s", arr);
-  
-  return arr
+  return names;
   
 }
