@@ -127,6 +127,18 @@ function sendToApi(textIn, len){
   
 }
 
+function sendToApi2(textIn, len){
+  
+  var senStr = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/" + textIn + "/property/MolecularFormula,MolecularWeight,IUPACName,Charge/JSON";
+  var out = UrlFetchApp.fetch(senStr);
+  var text = out.getContentText();
+  text = text.split("[")[1];
+  text = text.split("]")[0];
+  Logger.log("Data: %s", text);
+  return text;
+  
+}
+
 function subscript(word) {
   var res = "";
   //mode 0 sub, mode 1 super
@@ -215,6 +227,12 @@ function getTextAndTranslation() {
     text: text
   };
 }
+function getTextAndTranslation2() {
+  var text = sendToApi2(getWord(), 3);
+  return {
+    text: text
+  };
+}
 
 function insertText() {
   newText = subscript(getSelectedText());
@@ -290,99 +308,3 @@ function insertText() {
     cursor.insertText(newText);
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*function getWord() {
-  var pos = DocumentApp.getActiveDocument().getCursor();
-  var text = pos.getSurroundingText();
-  var textStr = text.getText();
-  var offset = pos.getSurroundingTextOffset()
-  var arr = [{}];
-  arr = textStr.split(" ")
-  Logger.log("text: %s \n Pos: %s",arr, offset);
-  var tracker = offset;
-  var arrPoint = 0;
-  while(tracker > 0){
-    tracker = tracker - arr[arrPoint].length-1;
-    Logger.log("ArrPOs: %s \n Length: %s",tracker, arr[arrPoint].length);
-    arrPoint++;
-  }
-  Logger.log("Word: %s",arr[arrPoint -1]);
-  
-  sendToApi(arr[arrPoint -1], 3   );
-  
-}
-
-function sendToApi(textIn, len) {
-  
-  var senStr = "https://pubchem.ncbi.nlm.nih.gov/rest/autocomplete/compound/" + textIn + "/json?limit=" + len;
-  var out = UrlFetchApp.fetch(senStr);
-  var text = out.getContentText();
-  var data = JSON.parse(text);
-  var names = new Array(len);
-  if (data.status.code === 0) {
-    for(var i = 0; i<len; i++){
-      names[i] = data.dictionary_terms.compound[i];
-    }
-  }
-  return names;
-  
-}
-
-//takes string and returns it with all numbers subscripted
-function subscript(word) {
-  Logger.log("non-subscripted: %s", word);
-  var res = "";
-  for (var i = 0; i < word.length; i++) {
-    var char = word.charAt(i);
-    if (char >= '0' && char <= '9') {
-      var offset = '9' - char;
-      //8329 is unicode for subscript 9, and they're all in a line
-      var uni = 8329 - offset;
-      var sub = String.fromCharCode(uni);
-      res += sub;
-    }
-    else {
-      res += char;
-    }
-  }
-  Logger.log("subscripted: %s", res);
-  return res;
-}*/
-
