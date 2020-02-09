@@ -1,10 +1,10 @@
 # ChemSaurus
 
+<img src="./fossilpigment.jpg" width=500/> 
+
 A Google Docs add-on for chemical formatting, smart molecular substitution, and more, ChemSaurus is designed to make publishing painless. 
 
 Created at [DevFest 2020](https://devfe.st/) at Columbia University by Josh Fuller, Omar Khan, and Emily Wang.
-
-<img src="./fossilpigment.jpg" width=500/> 
 
 ## Project Overview
 ### Motivation
