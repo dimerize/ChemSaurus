@@ -17,10 +17,10 @@ We set up ChemSaurus as a [Google Docs Add-On](https://developers.google.com/gsu
 ### List of Technologies Used
 Apps Script, PubChem API, JavaScript, HTML
 
-## Future Visions
+## Future Vision
 * Deepen the smart suggestions' ability to provide more relevant and insightful recommendations for formatting alternatives and disparate suggestions.
 
 * Implement a caching tool to keep track of the frequency of common chemical substitutions, improving the speed of the ChemSaurus program as well as providing a facile route for the user to repeatedly mention a molecule, a common circumstance in a chemical report.
 
-## Thank You
+## Appreciation
 We'd like to thank Columbia University and its Applicaton Development Initiative (ADI) for hosting DevFest 2020, as well as the sponsors of DevFest for continuously providing their products and support throughout the hackathon. 
