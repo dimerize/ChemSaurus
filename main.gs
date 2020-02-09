@@ -19,7 +19,7 @@ function getWord() {
   
 }
 
-function sendToApi(textIn, len){
+function sendToApi(textIn, len) {
   
   var senStr = "https://pubchem.ncbi.nlm.nih.gov/rest/autocomplete/compound/" + textIn + "/json?limit=" + len;
   var out = UrlFetchApp.fetch(senStr);
@@ -33,4 +33,23 @@ function sendToApi(textIn, len){
   }
   return names;
   
+}
+
+//takes string and returns it with all numbers subscripted
+function subscript(word) {
+  var res = "";
+  for (var i = 0; i < str.length; i++) {
+    var char = word.charAt(i);
+    if (char >= '0' && char <= '9') {
+      var offset = '9' - char;
+      //8329 is unicode for subscript 9, and they're all in a line
+      var uni = 8329 - offset;
+      var sub = String.fromCharCode(uni);
+      res += sub;
+    }
+    else {
+      res += char;
+    }
+  }
+  return res;
 }
