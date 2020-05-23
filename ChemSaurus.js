@@ -1,4 +1,5 @@
 /**
+ * I HAVE ADDED A COMMENT!
  * @OnlyCurrentDoc
  *
  * The above comment directs Apps Script to limit the scope of file
@@ -229,20 +230,6 @@ function subscript(word) {
   return res;
 }
 
-/**
- * Gets the user-selected text and translates it from the origin language to the
- * destination language. The languages are notated by their two-letter short
- * form. For example, English is 'en', and Spanish is 'es'. The origin language
- * may be specified as an empty string to indicate that Google Translate should
- * auto-detect the language.
- *
- * @param {string} origin The two-letter short form for the origin language.
- * @param {string} dest The two-letter short form for the destination language.
- * @param {boolean} savePrefs Whether to save the origin and destination
- *     language preferences.
- * @return {Object} Object containing the original text and the result of the
- *     translation.
- */
 function getTextAndTranslation() {
   var text = sendToApi(getWord(), 3);
   return {
